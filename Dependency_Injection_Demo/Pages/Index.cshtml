@@ -1,0 +1,116 @@
+﻿@page
+@using Dependency_Injection_Demo.Services.AddScoped;
+@using Dependency_Injection_Demo.Services.AddSingleton;
+@using Dependency_Injection_Demo.Services.AddTransient;
+@model IndexModel
+@inject IScopedService _scopedService
+@inject ITransientService _transientService
+@inject ISingletonService _singletonService
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+@if (Model.DIViewModels == null)
+{
+    <p> Record not found</p>
+}
+else
+{
+
+<div class="row">
+    @foreach (var item in Model.DIViewModels)
+    {
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                            <h5 class="card-title">@item.instanceName</h5>
+                            <h6>@item.instanceCreateId</h6>
+                            <h6>List Count : @item.listCount</h6>
+                        <p class="card-text">
+                                @foreach (var lst in item.Lists)
+                                {
+                                    <ul>
+                                        <li>
+                                            @lst
+                                        </li>
+                                    </ul>
+                                }
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+    }
+
+</div>
+
+}
+
+ <form method="post">
+after <input type="submit" value="Create" class="btn btn-primary" /> new value in current http context
+</form>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add Singleton</h5>
+                    <h6>@_singletonService.GetInstanceId()</h6>
+                    <h6>List Count : @_singletonService.GetList().Count</h6>
+                    <p class="card-text">
+                        @foreach (var lst in _singletonService.GetList())
+                        {
+                            <ul>
+                                <li>
+                                    @lst
+                                </li>
+                            </ul>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add Transiant</h5>
+                    <h6>@_transientService.GetInstanceId()</h6>
+                    <h6>List Count : @_transientService.GetList().Count</h6>
+                    <p class="card-text">
+                        @foreach (var lst in _transientService.GetList())
+                        {
+                            <ul>
+                                <li>
+                                    @lst
+                                </li>
+                            </ul>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add scoped</h5>
+                    <h6>@_scopedService.GetInstanceId()</h6>
+                    <h6>List Count : @_scopedService.GetList().Count</h6>
+                    <p class="card-text">
+                        @foreach (var lst in _scopedService.GetList())
+                        {
+                            <ul>
+                                <li>
+                                    @lst
+                                </li>
+                            </ul>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Repeat this structure for more cards -->
+    </div>
+
+</div>
